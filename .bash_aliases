@@ -15,6 +15,7 @@ alias histg="history | grep"
 alias meminfo="free -m -l -t"
 alias psa="ps aux | grep"
 alias cputemp='sensors | grep Core'
+alias lg='ll | grep'
 
 myinfo () {
   printf "CPU: "
