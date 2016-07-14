@@ -15,15 +15,20 @@ set $mod Mod4
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+# Program Shortcuts
+bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+d exec rofi -show run
+          # For rofi theme config, see .Xresources
+bindsym $mod+shift+f exec firefox
+bindsym $mod+shift+t exec thunderbird
+#bindsym $mod+shift+m exec urxvt -name cmus -e cmus
+
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 font pango:System San Francisco Display 9
 
 # Kill focused window
 bindsym $mod+Shift+q kill
-
-# Start rofi (a program launcher)
-bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 800 -opacity "85" -bw 0 -bc "#2f343f" -bg "#2f343f" -fg "#f3f4f5" -hlbg "#2f343f" -hlfg "#9575cd" -font "System San Francisco Display 18"
 
 # change focus
 bindsym $mod+Left focus left
@@ -64,40 +69,40 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # Workspace variables
-set $workspace1 "1:  "
-set $workspace2 "2:  "
-set $workspace3 "3:  "
-set $workspace4 "4:  " 
-set $workspace5 "5:  "
-set $workspace6 "6:  "
-set $workspace7 "7:  "
-set $workspace8 "8:  "
-set $workspace9 "9:  "
-set $workspace10 "10:  "
+set $ws1 "1:  "
+set $ws2 "2:  "
+set $ws3 "3:  "
+set $ws4 "4:  " 
+set $ws5 "5:  "
+set $ws6 "6:  "
+set $ws7 "7:  "
+set $ws8 "8:  "
+set $ws9 "9:  "
+set $ws10 "10:  "
 
 # switch to workspace
-bindsym $mod+1 workspace $workspace1
-bindsym $mod+2 workspace $workspace2
-bindsym $mod+3 workspace $workspace3
-bindsym $mod+4 workspace $workspace4
-bindsym $mod+5 workspace $workspace5
-bindsym $mod+6 workspace $workspace6
-bindsym $mod+7 workspace $workspace7
-bindsym $mod+8 workspace $workspace8
-bindsym $mod+9 workspace $workspace9
-bindsym $mod+0 workspace $workspace10
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $workspace1
-bindsym $mod+Shift+2 move container to workspace $workspace2
-bindsym $mod+Shift+3 move container to workspace $workspace3
-bindsym $mod+Shift+4 move container to workspace $workspace4
-bindsym $mod+Shift+5 move container to workspace $workspace5
-bindsym $mod+Shift+6 move container to workspace $workspace6
-bindsym $mod+Shift+7 move container to workspace $workspace7
-bindsym $mod+Shift+8 move container to workspace $workspace8
-bindsym $mod+Shift+9 move container to workspace $workspace9
-bindsym $mod+Shift+0 move container to workspace $workspace10
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
 
 # Assign programs to a specific window
 # example:
@@ -138,20 +143,21 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Window Color Variables
- set $base00 #191919
- set $base01 #878789
- set $base02 #d1dfe0
- set $base03 #187ac3
- set $base04 #0e3a5f
- set $base05 #f10c0c
-
 # Widow Colours
-#                         border  background text    indicator
-client.focused          $base02 $base00    $base02 $base01
-client.focused_inactive $base02 $base00    $base03 $base05
-client.unfocused        $base02 $base00    $base03 $base05
-client.urgent           $base02 $base05    $base00 $base05
+set $blue #268bd2
+set $grey #393939
+set $white #ffffff
+set $orange #f3843d
+set $dgrey #222222
+set $black #000000
+
+# class                 border  bg      text    indicator child_border
+client.focused          $blue   $blue   $white  $blue     $blue
+client.focused_inactive $grey   $grey   $white  $grey     $grey
+client.unfocused        $grey   $grey   $white  $grey     $dgrey
+client.urgent           $orange $orange $white  $orange   $orange
+client.placeholder      $black  $dgrey  $white  $black    $dgrey
+
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -175,16 +181,17 @@ bar {
 # Lock the screen
 bindsym $mod+shift+x exec i3lock -i /home/jon/Pictures/Wallpaper.png
 
-# Pulse Audio controls
+# Pulse Audio controls (Check sink number on new pc's)
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
 # Media player controls
-bindsym XF86AudioPause exec mpc toggle
-bindsym XF86AudioStop exec mpc stop
-bindsym XF86AudioPrev exec mpc prev
-bindsym XF86AudioNext exec mpc next
+bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioStop exec playerctl stop
+bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioNext exec playerctl next
+
 
 #Background
 exec_always feh --bg-scale /media/Local_Disk/Pictures/walls/d4jYMt6.jpg
@@ -197,13 +204,24 @@ new_window pixel
 
 exec --no-startup-id nm-applet
 
-# Program Shortcuts
-bindsym $mod+shift+f exec firefox
-bindsym $mod+Return exec urxvt
-bindsym $mod+shift+t exec thunderbird
-bindsym $mod+shift+m exec urxvt -name cmus -e cmus
-
 # Gaps
 #smart_gaps on
 gaps inner 15
 gaps outer 5
+
+#Power Settings
+set $system_power_mode "(s)hutdown or (r)eboot (Esc to exit)"
+
+# system/power menu
+mode $system_power_mode {
+ # dvorak equivalents
+  bindsym o exec systemctl poweroff
+  bindsym p exec systemctl reboot
+
+  # qwerty
+  bindsym s exec systemctl poweroff
+  bindsym r exec systemctl reboot
+
+  bindsym Escape mode "default"
+}
+bindsym $mod+Shift+Delete mode $system_power_mode
